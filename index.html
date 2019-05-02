@@ -4,6 +4,7 @@
 	<title>Todo list</title>
 	<meta charset="utf-8">
 	<meta name="author" description="Taras Anpilov">
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<header>Wellcome!</header>
@@ -19,6 +20,35 @@
 				<option value="student">Student</option>
 				<option value="developer">Developer</option>
 			</select>		
+		</div>
+		<div class="tabs">
+			<div class="tab" id="simple_form">
+				<input class="shown" id="simple" type="radio" name="tabs" checked />
+				<label for="simple" title="Simple Task">Simple Task</label>
+				<fieldset class="task">
+					<input type="text" name="title" placeholder="Title" />
+					<label for="st1">Done</label><input type="checkbox" id="st1" name="status" />
+				</fieldset>
+			</div>
+			<div class="tab" id="home_form">
+				<input class="shown" id="home" type="radio" name="tabs" />
+				<label for="home" title="Home Task">Home Task</label>
+				<fieldset class="task">
+					<input type="text" name="title" placeholder="Title" />
+					<label for="st2">Done</label><input type="checkbox" id="st2" name="status" />
+					<input type="textarea" name="description" placeholder="Description" />
+				</fieldset>
+			</div>
+			<div class="tab" id="project_form">
+				<input class="shown" id="project" type="radio" name="tabs" />
+				<label for="project" title="Project Task">Project Task</label>
+				<fieldset class="task">
+					<input type="text" name="title" placeholder="Title" />
+					<label for="st3">Done</label><input type="checkbox" id="st3" name="status" />
+					<input type="textarea" name="description" placeholder="Description" />
+					<span>Dead line</span><input type="date" name="date" />
+				</fieldset>
+			</div>
 		</div>
 	</main>
 	<footer>Footer</footer>

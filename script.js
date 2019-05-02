@@ -6,11 +6,11 @@ function User(name, surname) {
 }
 
 User.prototype.simpleTask = function(title) {
-	var sTask = {};
-	sTask.title = title;
-	sTask.status = false;
-	sTask.taskType = 'Simple task';
-	this.tasks.push(sTask);
+	var task = {};
+	task.taskType = 'Simple task';
+	task.title = title;
+	task.status = false;	
+	this.tasks.push(task);
 }
 
 User.prototype.log = function() {
@@ -21,9 +21,19 @@ User.prototype.log = function() {
 
 User.prototype.taskLog = function() {	
 	for (var t=0; t<this.tasks.length; t++) {
-		console.log('Task name : ' + this.tasks[t].title);
-		console.log('Task status : ' + this.tasks[t].status);
-		console.log('Task type : ' + this.tasks[t].taskType);
+		switch (this.tasks[t].taskType) {
+		case 'Simple task':
+			showSimpleTask(this.tasks[t]);
+			break;
+		case 'Home task':
+			showHomeTask(this.tasks[t]);
+			break;
+		case 'Project task':
+			showProjectTask(this.tasks[t]);
+			break;
+		default:
+			console.log ('There are no any tasks yet')
+		}				
 	}
 }	
 
@@ -42,12 +52,13 @@ Student.prototype.log = function() {
 	console.log('specialization : ' + this.specialization);
 }
 
-Student.prototype.homeTask = function(title) {
-	var hTask = {};
-	hTask.title = title;
-	hTask.status = false;
-	hTask.taskType = 'Home task';
-	this.tasks.push(hTask);
+Student.prototype.homeTask = function(title, description) {
+	var task = {};
+	task.taskType = 'Home task';
+	task.title = title;
+	task.status = false;	
+	task.description = description;
+	this.tasks.push(task);
 }
 
 function Developer(name, surname, specialization, jobTitle) {
@@ -65,12 +76,35 @@ Developer.prototype.log = function() {
 	console.log('job title : ' + this.jobTitle);
 }
 
-Developer.prototype.projectTask = function(title) {
-	var pTask = {};
-	pTask.title = title;
-	pTask.status = false;
-	pTask.taskType = 'Project task';
-	this.tasks.push(pTask);
+Developer.prototype.projectTask = function(title, description, deadLine) {
+	var task = {};
+	task.taskType = 'Project task';
+	task.title = title;
+	task.status = false;	
+	task.description = description;
+	task.deadLine = deadLine;
+	this.tasks.push(task);
+}
+
+function showSimpleTask(obj) {
+	console.log('Task name : ' + obj.title);
+	console.log('Task status : ' + obj.status);
+	console.log('Task type : ' + obj.taskType);
+}
+
+function showHomeTask(obj) {
+	console.log('Task name : ' + obj.title);
+	console.log('Task status : ' + obj.status);
+	console.log('Task type : ' + obj.taskType);
+	console.log('Task description : ' + obj.description);	
+}
+
+function showProjectTask(obj) {
+	console.log('Task name : ' + obj.title);
+	console.log('Task status : ' + obj.status);
+	console.log('Task type : ' + obj.taskType);
+	console.log('Task description : ' + obj.description);
+	console.log('Task dead line is : ' + obj.deadLine);	
 }
 
 var getData = document.getElementById('getter');

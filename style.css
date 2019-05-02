@@ -1,0 +1,13 @@
+.tab {
+    display: inline-block;
+} 
+.tabs input[type="radio"] { 
+    display: none;
+}
+.task {
+    display: none; 
+}
+.tab :checked ~ .task {
+    display: block;
+   }
+ 
