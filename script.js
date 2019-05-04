@@ -1,3 +1,6 @@
+var person = {};
+var task = {};
+
 function User(name, surname) {
 	this.name = name;
 	this.surname = surname;
@@ -5,15 +8,17 @@ function User(name, surname) {
 	this.tasks = [];
 }
 
-User.prototype.simpleTask = function(title) {
-	var task = {};
+User.prototype.simpleTask = function(title, status) {	
 	task.taskType = 'Simple task';
 	task.title = title;
-	task.status = false;	
+	task.status = status;	
 	this.tasks.push(task);
 }
 
 User.prototype.log = function() {
+	person.name = this.name;
+	person.surname = this.surname;
+	person.type = 'user';
 	console.log(this.name);
 	console.log(this.surname);
 	console.log(this.type);
@@ -52,13 +57,10 @@ Student.prototype.log = function() {
 	console.log('specialization : ' + this.specialization);
 }
 
-Student.prototype.homeTask = function(title, description) {
-	var task = {};
+Student.prototype.homeTask = function(title, status, description) {
+	User.prototype.simpleTask.apply(this, arguments);
 	task.taskType = 'Home task';
-	task.title = title;
-	task.status = false;	
-	task.description = description;
-	this.tasks.push(task);
+	task.description = description;	
 }
 
 function Developer(name, surname, specialization, jobTitle) {
@@ -76,12 +78,9 @@ Developer.prototype.log = function() {
 	console.log('job title : ' + this.jobTitle);
 }
 
-Developer.prototype.projectTask = function(title, description, deadLine) {
-	var task = {};
+Developer.prototype.projectTask = function(title, status, description, deadLine) {
+	Student.prototype.homeTask.apply(this, arguments);
 	task.taskType = 'Project task';
-	task.title = title;
-	task.status = false;	
-	task.description = description;
 	task.deadLine = deadLine;
 	this.tasks.push(task);
 }
@@ -108,7 +107,12 @@ function showProjectTask(obj) {
 }
 
 var getData = document.getElementById('getter');
+var creator = document.getElementsByClassName('add_task');
+
 getData.addEventListener('click', getFields);
+for (i=0; i<creator.length; i++) {
+	creator[i].addEventListener('click', addTask);
+}
 
 function getFields() {
 	var arr = [];
@@ -118,22 +122,27 @@ function getFields() {
 	arr[3] = document.getElementsByName('job_title')[0].value;
 	if (document.getElementsByName('person_type')[0].value == 'user') {	// створення юзера
 		var user = new User(arr[0], arr[1]);
+		getData.removeEventListener('click', getFields);
 		user.log();
-		user.simpleTask('website');  // перевірка методів
-		user.simpleTask('wordpress');
-		user.taskLog();
+		return user;
 	} else if (document.getElementsByName('person_type')[0].value == 'student') { // створення студента
 		var student = new Student (arr[0], arr[1], arr[2]);
+		getData.removeEventListener('click', getFields);
 		student.log();
-		student.simpleTask('website'); // перевірка методів
-		student.homeTask('application');
+		student.homeTask('some tit', false, 'qwtryeurytokluypiu');
 		student.taskLog();
 	} else {
 		var developer = new Developer (arr[0], arr[1], arr[2], arr[3]);
+		getData.removeEventListener('click', getFields);
 		developer.log();
-		developer.simpleTask('website'); // перевірка методів
-		developer.homeTask('application');
-		developer.projectTask('BiGProject');
+		developer.projectTask('another tit', true, '---', '21-05');
 		developer.taskLog();
 	}
-} 
+}
+
+function addTask() {
+	if (person.type == 'user') {
+		user.simpleTask( document.getElementsByClassName('title')[0].value, document.getElementsByClassName('status')[0].value );
+		user.taskLog();
+	}
+}
