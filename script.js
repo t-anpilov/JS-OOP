@@ -1,18 +1,10 @@
 var person = {};
-var task = {};
+var tasks = [];
 
 function User(name, surname) {
 	this.name = name;
 	this.surname = surname;
 	this.type = 'user';
-	this.tasks = [];
-}
-
-User.prototype.simpleTask = function(title, status) {	
-	task.taskType = 'Simple task';
-	task.title = title;
-	task.status = status;	
-	this.tasks.push(task);
 }
 
 User.prototype.log = function() {
@@ -24,23 +16,32 @@ User.prototype.log = function() {
 	console.log(this.type);
 }
 
-User.prototype.taskLog = function() {	
+taskLog = function() {	
 	for (var t=0; t<this.tasks.length; t++) {
 		switch (this.tasks[t].taskType) {
 		case 'Simple task':
-			showSimpleTask(this.tasks[t]);
+			console.log('Task name : ' + this.title);
+			console.log('Task status : ' + this.status);
+			console.log('Task type : ' + this.taskType);
 			break;
 		case 'Home task':
-			showHomeTask(this.tasks[t]);
+			console.log('Task name : ' + this.title);
+			console.log('Task status : ' + this.status);
+			console.log('Task type : ' + this.taskType);
+			console.log('Task description : ' + this.description);
 			break;
 		case 'Project task':
-			showProjectTask(this.tasks[t]);
+			console.log('Task name : ' + this.title);
+			console.log('Task status : ' + this.status);
+			console.log('Task type : ' + this.taskType);
+			console.log('Task description : ' + this.description);
+			console.log('Task dead line is : ' + this.deadLine);	
 			break;
 		default:
 			console.log ('There are no any tasks yet')
 		}				
 	}
-}	
+}
 
 function Student(name, surname, specialization) {
 	User.apply(this, arguments);
@@ -57,17 +58,10 @@ Student.prototype.log = function() {
 	console.log('specialization : ' + this.specialization);
 }
 
-Student.prototype.homeTask = function(title, status, description) {
-	User.prototype.simpleTask.apply(this, arguments);
-	task.taskType = 'Home task';
-	task.description = description;	
-}
-
 function Developer(name, surname, specialization, jobTitle) {
 	Student.apply(this, arguments);
 	this.jobTitle = jobTitle;
 	this.type = 'developer';
-	this.tasks = [];
 }
 
 Developer.prototype = Object.create(Student.prototype);
@@ -78,33 +72,49 @@ Developer.prototype.log = function() {
 	console.log('job title : ' + this.jobTitle);
 }
 
-Developer.prototype.projectTask = function(title, status, description, deadLine) {
-	Student.prototype.homeTask.apply(this, arguments);
-	task.taskType = 'Project task';
-	task.deadLine = deadLine;
-	this.tasks.push(task);
+function SimpleTask(title,  status) {
+	this.taskType = 'Simple task';
+	this.title = title;
+	this.status = status;
 }
 
-function showSimpleTask(obj) {
-	console.log('Task name : ' + obj.title);
-	console.log('Task status : ' + obj.status);
-	console.log('Task type : ' + obj.taskType);
+SimpleTask.prototype.saver = function() {
+	var task = {};
+	task.taskType = this.taskType;
+	task.title = this.title;
+	task.status = this.status;
+	tasks.push(task);
 }
 
-function showHomeTask(obj) {
-	console.log('Task name : ' + obj.title);
-	console.log('Task status : ' + obj.status);
-	console.log('Task type : ' + obj.taskType);
-	console.log('Task description : ' + obj.description);	
+function HomeTask(title,  status, description) {
+	SimpleTask.apply(this, arguments);
+	this.description = description;
+	this.taskType = 'Home task';
 }
 
-function showProjectTask(obj) {
-	console.log('Task name : ' + obj.title);
-	console.log('Task status : ' + obj.status);
-	console.log('Task type : ' + obj.taskType);
-	console.log('Task description : ' + obj.description);
-	console.log('Task dead line is : ' + obj.deadLine);	
+HomeTask.prototype = Object.create(SimpleTask.prototype);
+HomeTask.prototype.constructor = HomeTask;
+
+HomeTask.prototype.saver = function() {
+	SimpleTask.prototype.saver.apply(this, arguments);
+	task.description = this.description;
+	tasks.push(task);
+}	
+
+function ProjectTask(title,  status, description, deadLine) {
+	SimpleTask.apply(this, arguments);
+	this.deadLine = deadLine;
+	this.taskType = 'Project task';
 }
+
+ProjectTask.prototype = Object.create(HomeTask.prototype);
+ProjectTask.prototype.constructor = ProjectTask;
+
+ProjectTask.prototype.saver = function() {
+	HomeTask.prototype.saver.apply(this, arguments);
+	task.deadLine = this.deadLine;
+	tasks.push(task);
+}	
 
 var getData = document.getElementById('getter');
 var creator = document.getElementsByClassName('add_task');
@@ -128,15 +138,11 @@ function getFields() {
 	} else if (document.getElementsByName('person_type')[0].value == 'student') { // створення студента
 		var student = new Student (arr[0], arr[1], arr[2]);
 		getData.removeEventListener('click', getFields);
-		student.log();
-		student.homeTask('some tit', false, 'qwtryeurytokluypiu');
-		student.taskLog();
+		student.log();		
 	} else {
 		var developer = new Developer (arr[0], arr[1], arr[2], arr[3]);
 		getData.removeEventListener('click', getFields);
-		developer.log();
-		developer.projectTask('another tit', true, '---', '21-05');
-		developer.taskLog();
+		developer.log();		
 	}
 }
 
