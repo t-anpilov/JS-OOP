@@ -65,10 +65,11 @@ SimpleTask.prototype.show = function() {
 	if (this.status) done = 'in progres';
 	if (this.taskType == 'Home task') {
 		var desc = this.description;
-		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done + ' ' + desc;
-	} else if (this.taskType == 'Project task') {	
+		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done + ' , descripion: ' + desc;
+	} else if (this.taskType == 'Project task') {
+		var desc = this.description;	
 		var time = this.deadLine;
-		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done + ' ' + desc + ' ' + time;
+		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done + ' , descripion: ' + desc + ' , dead line: ' + time;
 	} else {
 		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done;	
 	}
@@ -89,7 +90,7 @@ HomeTask.prototype = Object.create(SimpleTask.prototype);
 HomeTask.prototype.constructor = HomeTask;
 
 function ProjectTask(taskType, title,  status, description, deadLine) {
-	SimpleTask.apply(this, arguments);
+	HomeTask.apply(this, arguments);
 	this.deadLine = deadLine;	
 }
 
@@ -112,18 +113,24 @@ function getFields() {
 	arr[1] = document.getElementsByName('person_surname')[0].value;
 	arr[2] = document.getElementsByName('specialization')[0].value;
 	arr[3] = document.getElementsByName('job_title')[0].value;
-	if (document.getElementsByName('person_type')[0].value == 'user') {	// створення юзера
-		var user = new User(arr[0], arr[1]);
-		getData.removeEventListener('click', getFields);
-		user.log();
-	} else if (document.getElementsByName('person_type')[0].value == 'student') { // створення студента
-		var student = new Student (arr[0], arr[1], arr[2]);
-		getData.removeEventListener('click', getFields);
-		student.log();		
+	if (document.getElementsByName('person_type')[0].value == 'user') {
+		if (arr[0] && arr[1]) {
+			var user = new User(arr[0], arr[1]);
+			getData.removeEventListener('click', getFields);
+			user.log();
+		} else { alert( 'Fill all requiring  fields' );  }
+	} else if (document.getElementsByName('person_type')[0].value == 'student') {
+		if (arr[0] && arr[1] && arr[2]) {
+			var student = new Student (arr[0], arr[1], arr[2]);
+			getData.removeEventListener('click', getFields);
+		    student.log();
+		} else { alert( 'Fill all requiring  fields' );  }		
 	} else {
-		var developer = new Developer (arr[0], arr[1], arr[2], arr[3]);
-		getData.removeEventListener('click', getFields);
-		developer.log();		
+		if (arr[0] && arr[1] && arr[2] && arr[3]) {
+			var developer = new Developer (arr[0], arr[1], arr[2], arr[3]);
+			getData.removeEventListener('click', getFields);
+			developer.log();
+		} else { alert( 'Fill all requiring  fields' );  }			
 	}
 }
 
