@@ -1,28 +1,123 @@
-.tab {
-    display: inline-block;
-} 
-.tabs input[type="radio"] { 
-    display: none;
+body {
+    background-color: rgb(236, 232, 232);
 }
+header, footer {
+    margin: 10px auto 24px;
+    padding: 10px 0 10px;
+    width: 90%;
+    background-color: white;
+    text-align: center;
+    line-height: 100%;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    border: 1px solid black;
+}
+main {
+    width: 90%;
+    margin: 0 auto 24px; 
+    display: flex;
+    justify-content: space-between;    
+}
+.wrapper {
+    width: 40%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.btn_cont {
+    width: 100%;
+}
+#getter {
+    display: block;
+    width: 45%;
+    font-size: 1.2rem;
+    margin: 0 0 12px;
+}
+.get {
+    width: 45%;
+    margin: 0 6px 9px 0;
+    height: 18px;
+}
+.wrapper select {
+    width: 45%;
+}
+.tabs {
+    width: 55%;
+    position: relative;
+    padding-top: 40px;
+}
+.tab, .tab_title {
+    display: inline-block;
+}
+.tab_title {
+    background: #ccc;
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-bottom: none;
+    font-size: 1.2rem;
+} 
 .task {
-    display: none; 
+    position: absolute;
+    border: 1px solid black;
+    padding: 10px;
+    left: 0;
+    width: calc(100% - 20px);
+    display: none;
+}   
+.tab :checked + .tab_title {
+    position: relative;
+    background: #fff;
+    top: 1px;
+    z-index: 1; 
 }
 .tab :checked ~ .task {
     display: block;
 }
+.tab input[type="radio"] { 
+    display: none;
+}
+.tab textarea {
+    display: block;
+    width: 80%;
+}
+.tab input, .tab textarea {
+    margin: 0 16px 12px 0;
+}
+.tab input {
+    height: 18px;
+}
+.tab span, .tab label {
+    margin-right:8px;
+}
+.task {
+    display: none; 
+}
 
 .tasks_container {
-    margin-bottom: 36px;
+    margin: 0 auto 36px;
+    width: 90%;
 }
-
 .task_item {
     border: 1px solid black;
-    margin: 12px;
+    margin: 12px 0 12px;
+    position: relative;
+    padding: 8px;
+    font-size: 1.1rem;
+    background-color: white;
 }
-
 .close {
     display: inline-block;
     border: 1px solid black;
-    margin: 2px;
     cursor: pointer;
+    position: absolute;
+    right: 12px;
+    height: 16px;
+    width: 16px;
+    line-height: 100%;
+    text-align: center;
+}
+
+footer {
+    margin: 0 auto 0; 
+    font-size: 1.2rem;   
 }

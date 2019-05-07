@@ -4,17 +4,20 @@
 	<title>Todo list</title>
 	<meta charset="utf-8">
 	<meta name="author" description="Taras Anpilov">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" type="text/css" href="reset.css">
+	<link rel="stylesheet" type="text/css"  href="style.css">
 </head>
 <body>
 	<header>Wellcome!</header>
 	<main>
 		<div class="wrapper">
-			<button id="getter">Create user</button>
-			<input name="person_name" placeholder="Name" />
-			<input name="person_surname" placeholder="Surname" />
-			<input name="specialization" placeholder="specialization" />
-			<input name="job_title" placeholder="job title" />
+			<div class="btn_cont">
+				<button id="getter">Create user</button>
+			</div>	
+			<input class="get" name="person_name" placeholder="Name" />
+			<input class="get" name="person_surname" placeholder="Surname" />
+			<input class="get" name="specialization" placeholder="specialization" />
+			<input class="get" name="job_title" placeholder="job title" />
 			<select name="person_type">
 				<option value="user">User</option>
 				<option value="student">Student</option>
@@ -23,40 +26,40 @@
 		</div>
 		<div class="tabs">
 			<div class="tab" id="simple_form">
-				<input class="shown" id="simple" type="radio" checked />
-				<label for="simple" title="Simple Task">Simple Task</label>
-				<fieldset class="task" id="simple_task" data-type="Simple task">
-					<input type="text" class="title" placeholder="Title" />
+				<input id="simple" type="radio" name="tab-select" checked />
+				<label for="simple" class="tab_title" title="Simple Task">Simple Task</label>
+				<section class="task" id="simple_task" data-type="Simple task">
+					<input class="title" placeholder="Title" />
 					<label for="st1">In work</label><input type="checkbox" id="st1" class="status" />
 					<button class="add_task" id>Add task</button>
-				</fieldset>
+				</section>
 			</div>
 			<div class="tab" id="home_form">
-				<input id="home" type="radio" />
-				<label for="home" title="Home Task">Home Task</label>
-				<fieldset class="task" id="home_task" data-type="Home task">
-					<input type="text" class="title" placeholder="Title" />
+				<input id="home" type="radio" name="tab-select" />
+				<label for="home" class="tab_title" title="Home Task">Home Task</label>
+				<section class="task" id="home_task" data-type="Home task">
+					<input class="title" placeholder="Title" />
 					<label for="st2">In work</label><input type="checkbox" id="st2" class="status" />
 					<textarea class="description" placeholder="Description"></textarea>
 					<button class="add_task" id>Add task</button>
-				</fieldset>
+				</sectiont>
 			</div>
 			<div class="tab" id="project_form">
-				<input id="project" type="radio" />
-				<label for="project" title="Project Task">Project Task</label>
-				<fieldset class="task" id="project_task" data-type="Project task">
-					<input type="text" class="title" placeholder="Title" />
+				<input id="project" type="radio" name="tab-select"  />
+				<label for="project" class="tab_title" title="Project Task">Project Task</label>
+				<section class="task" id="project_task" data-type="Project task">
+					<input class="title" placeholder="Title" />
 					<label for="st3">In work</label><input type="checkbox" id="st3" class="status" />
 					<textarea class="description" placeholder="Description"></textarea>
-					<span>Dead line</span><input type="date" class="date" />
+					<span>Dead line :</span><input type="date" class="date" />
 					<button class="add_task" id>Add task</button>
-				</fieldset>
+				</section>
 			</div>
 		</div>
-		<div class="tasks_container">
+	</main>	
+	<section class="tasks_container">
 
-		</div>	
-	</main>
+	</section>		
 	<footer>Footer</footer>
 	<script src="script.js"></script>
 </body>
