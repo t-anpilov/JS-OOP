@@ -70,10 +70,6 @@ function SimpleTask(taskType, title,  status) {
 	this.status = status;
 }
 
-SimpleTask.prototype.saver = function() {
-	tasks.push(this);
-}	
-
 SimpleTask.prototype.show = function() {
 	var item = document.createElement('div');	
 	item.classList.add('task_item');
