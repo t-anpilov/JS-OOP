@@ -13,8 +13,7 @@ User.prototype.log = function() {
 	person.type = this.type;
 	console.log(this.name);
 	console.log(this.surname);
-	console.log(this.type);
-	alert( this.type + ' have been created already!' ) 
+	console.log(this.type);	 
 }
 
 function Student(name, surname, specialization) {
@@ -48,6 +47,23 @@ Developer.prototype.log = function() {
 	console.log('job title : ' + this.jobTitle);
 }
 
+person.screen_show = function() {
+	var someone = document.createElement('div');	
+	someone.classList.add('person');
+	switch (person.type) {
+		case 'user': 
+			someone.innerHTML = 'Created: ' + person.name + ' ' + person.surname + ' (' + person.type + ')';
+			break;
+		case 'student': 
+			someone.innerHTML = 'Created: ' + person.name + ' ' + person.surname + ', ' + person.specialization + ' (' + person.type + ')';
+			break;
+		case 'developer': 
+			someone.innerHTML = 'Created: ' + person.name + ' ' + person.surname + ', ' + person.specialization + ', ' + person.jobTitle + ' (' + person.type + ')';
+			break;
+	}	
+	document.body.insertBefore(someone, document.getElementById('show_tasks'));
+}
+
 function SimpleTask(taskType, title,  status) {
 	this.taskType = taskType;
 	this.title = title;
@@ -65,11 +81,11 @@ SimpleTask.prototype.show = function() {
 	if (this.status) done = 'in progres';
 	if (this.taskType == 'Home task') {
 		var desc = this.description;
-		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done + ' , descripion: ' + desc;
+		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done + ' , description: ' + desc;
 	} else if (this.taskType == 'Project task') {
 		var desc = this.description;	
 		var time = this.deadLine;
-		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done + ' , descripion: ' + desc + ' , dead line: ' + time;
+		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done + ' , description: ' + desc + ' , dead line: ' + time;
 	} else {
 		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done;	
 	}
@@ -101,11 +117,13 @@ var getData = document.getElementById('getter');
 var creator = document.getElementsByClassName('add_task');
 
 getData.addEventListener('click', getFields);
+getData.addEventListener('click', person.screen_show);
 for (i=0; i<creator.length; i++) {
 	creator[i].addEventListener('click', addTask);
 }
-
-container.addEventListener('click', deleteTask);
+for (i=0; i<creator.length; i++) {
+	creator[i].addEventListener('click', addTask);
+}
 
 function getFields() {
 	var arr = [];
@@ -178,6 +196,8 @@ function addTask() {
 			break;
 	}	
 }
+
+container.addEventListener('click', deleteTask);
 
 function deleteTask(event) {
 	var target = event.target;

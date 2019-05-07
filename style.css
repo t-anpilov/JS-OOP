@@ -14,7 +14,7 @@ header, footer {
 }
 main {
     width: 90%;
-    margin: 0 auto 24px; 
+    margin: 0 auto 96px; 
     display: flex;
     justify-content: space-between;    
 }
@@ -91,6 +91,15 @@ main {
 }
 .task {
     display: none; 
+}
+
+.person {
+    margin: 0 auto 18px;
+    width: 90%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background-color: #ccc;
+    padding: 9px 0 9px 6px;    
 }
 
 .tasks_container {
