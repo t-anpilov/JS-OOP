@@ -1,31 +1,5 @@
 var person = {};
-var tasks = [];
-tasks.taskLog = function() {	
-	for (var t=0; t<tasks.length; t++) {
-		switch (tasks[t].taskType) {
-		case 'Simple task':
-			console.log('Task name : ' + tasks[t].title);
-			console.log('Task status : ' + tasks[t].status);
-			console.log('Task type : ' + tasks[t].taskType);
-			break;
-		case 'Home task':
-			console.log('Task name : ' + tasks[t].title);
-			console.log('Task status : ' + tasks[t].status);
-			console.log('Task type : ' + tasks[t].taskType);
-			console.log('Task description : ' + tasks[t].description);
-			break;
-		case 'Project task':
-			console.log('Task name : ' + tasks[t].title);
-			console.log('Task status : ' + tasks[t].status);
-			console.log('Task type : ' + tasks[t].taskType);
-			console.log('Task description : ' + tasks[t].description);
-			console.log('Task dead line is : ' + tasks[t].deadLine);	
-			break;
-		default:
-			console.log ('There are no any tasks yet');
-		}				
-	}
-}
+var container = document.getElementsByClassName('tasks_container')[0];
 
 function User(name, surname) {
 	this.name = name;
@@ -40,6 +14,7 @@ User.prototype.log = function() {
 	console.log(this.name);
 	console.log(this.surname);
 	console.log(this.type);
+	alert( this.type + ' have been created already!' ) 
 }
 
 function Student(name, surname, specialization) {
@@ -81,6 +56,28 @@ function SimpleTask(taskType, title,  status) {
 
 SimpleTask.prototype.saver = function() {
 	tasks.push(this);
+}	
+
+SimpleTask.prototype.show = function() {
+	var item = document.createElement('div');	
+	item.classList.add('task_item');
+	var done = 'open';
+	if (this.status) done = 'in progres';
+	if (this.taskType == 'Home task') {
+		var desc = this.description;
+		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done + ' ' + desc;
+	} else if (this.taskType == 'Project task') {	
+		var time = this.deadLine;
+		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done + ' ' + desc + ' ' + time;
+	} else {
+		item.innerHTML = this.taskType + ' : ' + this.title + ' , status: ' + done;	
+	}
+	
+	var square = document.createElement('div');
+	square.innerHTML = '&#215;';
+	square.classList.add('close');
+	item.appendChild(square);
+	container.appendChild(item);
 }
 
 function HomeTask(taskType, title,  status, description) {
@@ -93,8 +90,7 @@ HomeTask.prototype.constructor = HomeTask;
 
 function ProjectTask(taskType, title,  status, description, deadLine) {
 	SimpleTask.apply(this, arguments);
-	this.deadLine = deadLine;
-	
+	this.deadLine = deadLine;	
 }
 
 ProjectTask.prototype = Object.create(HomeTask.prototype);
@@ -107,6 +103,8 @@ getData.addEventListener('click', getFields);
 for (i=0; i<creator.length; i++) {
 	creator[i].addEventListener('click', addTask);
 }
+
+container.addEventListener('click', deleteTask);
 
 function getFields() {
 	var arr = [];
@@ -137,39 +135,46 @@ function addTask() {
 	var checkbox = parent.querySelector('input[type=checkbox]');
 	if (checkbox.checked) {
 		status = true;
-	} else { status = false;
-	}
+	} else { status = false; }
 		 
 	switch (parent.id) {
 		case 'simple_task' :
 			if (person.type == 'user' || person.type == 'student' || person.type == 'developer') {
-				var task = new SimpleTask( taskType, title, status );
-				task.saver();
-				tasks.taskLog();
-			}
+				if (title != '') {
+					var task = new SimpleTask( taskType, title, status );
+					task.show();
+				} else { alert( 'Enter task\'s title'  ); }
+			} else { alert( 'Create user at first!'  ); }
 			break;
 		case 'home_task' :
 			if (person.type == 'student' || person.type == 'developer') {
 				var description = parent.getElementsByClassName('description')[0].value;
-				var task = new HomeTask( taskType, title, status, description );
-				task.saver();
-				tasks.taskLog();
+				if (title != '' && description != '') {
+					var task = new HomeTask( taskType, title, status, description );
+					task.show();
+				} else { alert( 'Fill all the fields' ); }
 			} else if (person.type == 'user') {
 				alert ('You do not have enough rights to create this type of task');
-			}
+			} else { alert( 'Create user at first!'  ); }
 			break;
 		case 'project_task' :
 			if (person.type == 'developer') {
 				var description = parent.getElementsByClassName('description')[0].value;
 				var deadLine = parent.getElementsByClassName('date')[0].value;
-				var task = new ProjectTask( taskType, title, status, description, deadLine );
-				task.saver();
-				tasks.taskLog();
+				if (title != '' && description != '' && deadLine != '') {
+					var task = new ProjectTask( taskType, title, status, description, deadLine );
+					task.show();
+				} else { alert( 'Fill all the fields' ); }	
 			} else if (person.type == 'user' || person.type == 'student') {
 				alert ('You do not have enough rights to create this type of task');
-			}
-			break;	
-		default:
-			console.log ('Create user at first!');
+			} else { alert( 'Create user at first!'  ); }
+			break;
 	}	
+}
+
+function deleteTask(event) {
+	var target = event.target;
+	if (!target.classList.contains('close')) return;
+	 
+	container.removeChild(target.parentElement);
 }

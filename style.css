@@ -9,5 +9,20 @@
 }
 .tab :checked ~ .task {
     display: block;
-   }
- 
+}
+
+.tasks_container {
+    margin-bottom: 36px;
+}
+
+.task_item {
+    border: 1px solid black;
+    margin: 12px;
+}
+
+.close {
+    display: inline-block;
+    border: 1px solid black;
+    margin: 2px;
+    cursor: pointer;
+}
